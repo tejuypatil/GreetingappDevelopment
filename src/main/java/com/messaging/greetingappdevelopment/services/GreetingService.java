@@ -12,7 +12,7 @@ public class GreetingService {
 
     public Greeting getGreeting(UserData userData) {
         long id = counter.incrementAndGet();
-        Greeting greeting = new Greeting(id,"Hello World");
+        Greeting greeting = new Greeting(id,"Hello "+userData.getFirstName()+" "+userData.getLastName());
         return greeting;
     }
 }
