@@ -2,6 +2,7 @@ package com.messaging.greetingappdevelopment.controller;
 
 import com.messaging.greetingappdevelopment.model.Greeting;
 import com.messaging.greetingappdevelopment.model.UserData;
+import com.messaging.greetingappdevelopment.services.GreetingService;
 import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicLong;
 @RestController
@@ -39,5 +40,11 @@ public class GreetingController {
         @PutMapping("/greeting/put")
         public Greeting putGreeting(@RequestParam(value ="name")String name){
                 return new Greeting(counter.incrementAndGet(),String.format(template,name));
+        }
+        @GetMapping("/service")
+        public  Greeting greeting(@RequestParam(value = "name", defaultValue = "World")String name){
+                GreetingService greetingService = new GreetingService();
+                UserData userData = new UserData();
+                return greetingService.getGreeting(userData);
         }
 }
