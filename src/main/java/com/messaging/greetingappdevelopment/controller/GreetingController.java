@@ -41,10 +41,16 @@ public class GreetingController {
         public Greeting putGreeting(@RequestParam(value ="name")String name){
                 return new Greeting(counter.incrementAndGet(),String.format(template,name));
         }
-        @GetMapping("/service")
-        public  Greeting greeting(@RequestParam(value = "name", defaultValue = "World")String name){
-                GreetingService greetingService = new GreetingService();
+        @GetMapping("/greet")
+        public  Greeting greeting(@RequestParam(value = "FirstName", defaultValue = "")String fname,
+                                  @RequestParam(value = "LastName",defaultValue = "")String lname    )
+        {
+
                 UserData userData = new UserData();
+                userData.setFirstName(fname);
+                userData.setLastName(lname);
+
+                GreetingService greetingService = new GreetingService();
                 return greetingService.getGreeting(userData);
         }
 }
