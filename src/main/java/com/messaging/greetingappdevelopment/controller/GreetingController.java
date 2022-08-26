@@ -28,6 +28,7 @@ public class GreetingController {
         }
         /**
          * Post : curl http://localhost:8080/greeting/hi (In request body passing JSON object)
+         * @param data this is {@link UserData} with lastName
          * */
         @PostMapping("/greeting/hi")
         public Greeting getGreetingHi(@RequestBody UserData data){
