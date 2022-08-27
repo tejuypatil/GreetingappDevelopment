@@ -3,12 +3,18 @@ package com.messaging.greetingappdevelopment.controller;
 import com.messaging.greetingappdevelopment.model.Greeting;
 import com.messaging.greetingappdevelopment.model.UserData;
 import com.messaging.greetingappdevelopment.services.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class GreetingController {
         private static final String template ="Hello , %s!";
         private final AtomicLong counter = new AtomicLong();
+
+        @Autowired
+        private GreetingService greetingService;
 
         /**
          * UC1_curl -X GET "http://localhost:8080/greeting"
@@ -50,7 +56,65 @@ public class GreetingController {
                 userData.setFirstName(fname);
                 userData.setLastName(lname);
 
-                GreetingService greetingService = new GreetingService();
+
                 return greetingService.getGreeting(userData);
+        }
+
+
+        /**
+         * UC4
+         * saves new greeting to database
+         * this is POST call with UserData as RequestBody
+         * */
+        @PostMapping("/greetService")
+        public Greeting greeting(@RequestBody UserData userData)
+        {
+                return  greetingService.addGreeting(userData);
+        }
+
+
+        /**
+         * UC5
+         * gets the greeting with given id from database
+         * this is GET call with id as PathVariable
+         * */
+        @GetMapping("/greetService/{id}")
+        public Greeting greeting(@PathVariable long id)
+        {
+                return  greetingService.getGreetingById(id);
+        }
+
+
+        /**
+         * UC6
+         * gets all greetings from database
+         * this is GET call
+         * */
+        @GetMapping("/greetService")
+        public List<Greeting> greetingFindAll()
+        {
+                return  greetingService.getAllGreetings();
+        }
+
+        /**
+         * UC7
+         * updates the greeting with given id in database
+         * this is PUT call with new UserData and greeting_id
+         * */
+        @PutMapping("/greetService/{id}")
+        public Greeting greeting(@RequestBody UserData userData, @PathVariable long id)
+        {
+                return  greetingService.updateGreeting(userData,id);
+        }
+
+        /**
+         * UC8
+         * deletes the greeting with given id from database
+         * this is DELETE call
+         * */
+        @DeleteMapping("/greetService/{id}")
+        public void greetingDelete(@PathVariable long id)
+        {
+                greetingService.deleteGreeting(id);
         }
 }
