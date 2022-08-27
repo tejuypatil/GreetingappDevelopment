@@ -1,14 +1,21 @@
 package com.messaging.greetingappdevelopment.model;
 
-import lombok.Data;
-@Data
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "greeting")
 public class Greeting {
-    private final long id;
-    private final String content;
+    @Id
+    private long id;
+    private String content;
     public Greeting(long id, String content) {
         this.id = id;
         this.content = content;
     }
+    public Greeting()
+    {}
 
     public long getId() {
         return id;
@@ -16,5 +23,9 @@ public class Greeting {
 
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
